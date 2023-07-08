@@ -1,0 +1,9 @@
+spring:
+  main:
+    allow-circular-references: true
+  application:
+    name: Monofi
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+    include:
+      - database

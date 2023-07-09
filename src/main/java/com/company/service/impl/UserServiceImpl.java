@@ -1,6 +1,7 @@
 package com.company.service.impl;
 
 import com.company.controller.dto.UserDto;
+import com.company.exception.EmailAlreadyUsedException;
 import com.company.jpa.entity.Authority;
 import com.company.jpa.entity.UserEntity;
 import com.company.jpa.repository.AuthorityJpaRepository;
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity register(UserDto userDto) throws Exception {
-        if(userJpaRepository.findByUsername(userDto.getUsername())!=null) throw new Exception();
+        if(userJpaRepository.findByUsername(userDto.getUsername())!=null) throw new EmailAlreadyUsedException(userDto.getUsername());
         UserEntity userEntity = createUserEntity(userDto);
         return userJpaRepository.save(userEntity);
     }

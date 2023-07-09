@@ -35,6 +35,8 @@ public class UserEntity implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "mobile_number")
+    private String mobileNumber;
 
     @Column(name = "registration_date")
     LocalDateTime registrationDate;
@@ -46,6 +48,9 @@ public class UserEntity implements UserDetails {
     private boolean credentialsNonExpired;
 
     private boolean enabled;
+
+    @OneToMany(mappedBy="userEntity")
+    private Set<Card> cards;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)

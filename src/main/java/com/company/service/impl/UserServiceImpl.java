@@ -32,7 +32,9 @@ public class UserServiceImpl implements UserService {
 
     private UserEntity createUserEntity(UserDto dto) {
         UserEntity userEntity = new UserEntity();
-        Authority authority = authorityJpaRepository.findById(new Long(1)).get();
+        Authority authority;
+        if(authorityJpaRepository.findByAuthority("ROLE_USER").isPresent()) authority = authorityJpaRepository.findByAuthority("ROLE_USER").get();
+        else authority = authorityJpaRepository.save(Authority.builder().authority("ROLE_USER").build());
         Set<Authority> userAuthority = new HashSet<>();
         userAuthority.add(authority);
         userEntity.setSurname(dto.getSurname());

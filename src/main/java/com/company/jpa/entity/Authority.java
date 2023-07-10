@@ -12,9 +12,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Builder
-@AllArgsConstructor
 @Table(name = "authority")
 public class Authority implements GrantedAuthority {
 

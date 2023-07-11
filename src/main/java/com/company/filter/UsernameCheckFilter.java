@@ -17,7 +17,7 @@ public class UsernameCheckFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
         if(authorizationHeader!=null){
-            String encodedString = authorizationHeader.substring(6,authorizationHeader.length());
+            String encodedString = authorizationHeader.substring(6);
             byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
             String usernamePassword = new String(decodedBytes);
             String username = usernamePassword.split(":")[0];

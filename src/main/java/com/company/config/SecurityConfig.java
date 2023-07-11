@@ -1,10 +1,12 @@
 package com.company.config;
 
+import com.company.filter.JwtValidatorFilter;
 import com.company.filter.LoggingFilter;
 import com.company.filter.UsernameCheckFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,8 +27,11 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
                 .and().formLogin().and().httpBasic()
                 .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .addFilterBefore(new UsernameCheckFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new LoggingFilter(),BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtValidatorFilter(),BasicAuthenticationFilter.class)
                 .csrf().disable()
                 .cors().configurationSource(new CorsConfigurationSource() {
             @Override
@@ -36,6 +41,7 @@ public class SecurityConfig {
                 corsConfiguration.setAllowedMethods(Arrays.asList("*"));
                 corsConfiguration.setAllowCredentials(true);
                 corsConfiguration.setAllowedOrigins(Arrays.asList("/localhost:4042"));
+                corsConfiguration.setExposedHeaders(Arrays.asList("Authorization"));
                 return corsConfiguration;
             }
         });
